@@ -125,6 +125,7 @@ public class VHDLview extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         auto_populate_button = new javax.swing.JButton();
         dsnCompileButton = new javax.swing.JButton();
+        updateRevButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbTable = new javax.swing.JTable();
@@ -137,6 +138,8 @@ public class VHDLview extends javax.swing.JFrame {
         envTable = new javax.swing.JTable();
         autoEnv = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
+        cdcButton = new javax.swing.JButton();
+        spyglassButton = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         logText = new javax.swing.JTextArea();
@@ -173,11 +176,11 @@ public class VHDLview extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Files", "Compile", "coverage", "options", "SVN Rev"
+                "Files", "Compile", "coverage", "com", "options", "SVN Rev"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -207,6 +210,13 @@ public class VHDLview extends javax.swing.JFrame {
             }
         });
 
+        updateRevButton.setText("Update Rev");
+        updateRevButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                updateRevButtonMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -215,7 +225,9 @@ public class VHDLview extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 352, Short.MAX_VALUE)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(updateRevButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dsnCompileButton)
                         .addGap(18, 18, 18)
                         .addComponent(auto_populate_button))
@@ -230,7 +242,8 @@ public class VHDLview extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(auto_populate_button)
-                    .addComponent(dsnCompileButton))
+                    .addComponent(dsnCompileButton)
+                    .addComponent(updateRevButton))
                 .addContainerGap())
         );
 
@@ -241,11 +254,11 @@ public class VHDLview extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Testbench", "Defines", "Compile", "GUI", "SVN Rev"
+                "Testbench", "Defines", "Compile", "GUI", "com", "SVN Rev"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -329,11 +342,11 @@ public class VHDLview extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Environment", "Options", "Compile", "SVN Rev"
+                "Environment", "Options", "Compile", "com", "SVN Rev"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Integer.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -377,15 +390,34 @@ public class VHDLview extends javax.swing.JFrame {
 
         designPane.addTab("Environment", jPanel3);
 
+        cdcButton.setText("0-in cdc");
+        cdcButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cdcButtonMouseClicked(evt);
+            }
+        });
+
+        spyglassButton.setText("spyglass");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 508, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(cdcButton)
+                    .addComponent(spyglassButton))
+                .addContainerGap(426, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 335, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cdcButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(spyglassButton)
+                .addContainerGap(257, Short.MAX_VALUE))
         );
 
         designPane.addTab("0-in/Spyglass", jPanel4);
@@ -566,7 +598,7 @@ public class VHDLview extends javax.swing.JFrame {
                 //System.out.println("w1");
                 System.out.println(line);
                 //model.setValueAt(line, i, 0);
-                Object[] dataRow = {line, true, "", "",0};
+                Object[] dataRow = {line, true, "", "","",0};
                 boolean found=false;
                 for(int counter = 0;counter<model.getRowCount();counter++)
                     if(model.getValueAt(counter, 0).toString().compareTo(line)==0)
@@ -622,7 +654,7 @@ public class VHDLview extends javax.swing.JFrame {
                 //System.out.println("w1");
                 System.out.println(line);
                 //tbModel.setValueAt(line, i, 0);
-                Object[] dataRow = {line,"", true,false,0};
+                Object[] dataRow = {line,"", true,false,"",0};
                 boolean found=false;
                 for(int counter = 0;counter<tbModel.getRowCount();counter++)
                     if(tbModel.getValueAt(counter, 0).toString().compareTo(line)==0)
@@ -672,7 +704,7 @@ public class VHDLview extends javax.swing.JFrame {
                 //System.out.println("w1");
                 System.out.println(line);
                 //model.setValueAt(line, i, 0);
-                Object[] dataRow = {line, "",true,updateRev(line)};
+                Object[] dataRow = {line, "",true,"",""};
                 boolean found=false;
                 for(int counter = 0;counter<envModel.getRowCount();counter++)
                     if(envModel.getValueAt(counter, 0).toString().compareTo(line)==0)
@@ -694,9 +726,49 @@ public class VHDLview extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_autoEnvMouseClicked
 
+    private void exec_file(String[] commands){
+        ProcessBuilder pbx = new ProcessBuilder("chmod","+x","tmp_exec");
+        FileWriter fstream = null;
+        try {
+            fstream = new FileWriter("tmp_exec");
+            BufferedWriter out = new BufferedWriter(fstream);
+            for(int i=0;i<commands.length;i++)
+                out.write(commands[i]+"\n");
+            out.close();
+        } catch (IOException ex) {
+            Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fstream.close();
+            } catch (IOException ex) {
+                Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        Process px;
+        try {
+            px = pbx.start();
+            try {
+                px.waitFor();
+            } catch (InterruptedException ex) {
+                Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+        ProcessBuilder pb = new ProcessBuilder("ls");
+        try {
+            Process p = pb.start();
+        } catch (IOException ex) {
+            Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
+    }
     private void dsnCompileButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dsnCompileButtonMouseClicked
         // TODO add your handling code here:
-        OutputStream out = null;  
+        /*OutputStream out = null;  
         try {  
             Process proc = new ProcessBuilder("xterm").start();  
             out = proc.getOutputStream();  
@@ -717,7 +789,23 @@ public class VHDLview extends javax.swing.JFrame {
             }  
         }
         logText.append("text area\n");
+        */
+        int overhead=5;
         
+        String[] comm= new String[model.getRowCount()+overhead];
+        
+        comm[0]="source startfile";
+        comm[1]="cd $BASE_DIR/sim/libs";
+        comm[2]="rm -Rf work";
+        comm[3]="vlib work";
+        comm[4]="cd $BASE_DIR";
+
+        for(int i=0;i<model.getRowCount();i++){
+            if(((Boolean)model.getValueAt(i, 1)).booleanValue()){
+                comm[i+overhead]="vcom -cover "+model.getValueAt(i, 2).toString()+" "+model.getValueAt(i, 0).toString();
+            }
+        }
+        exec_file(comm);
     }//GEN-LAST:event_dsnCompileButtonMouseClicked
 
     private void dupButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dupButtonMouseClicked
@@ -781,39 +869,217 @@ public class VHDLview extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_logFileListMouseClicked
 
-    private int updateRev(String line){
-        try {
-            ProcessBuilder pb = new ProcessBuilder("pwd");
-            //pb.
-            Process p = pb.start();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
-            //p.waitFor();
-            String processStr = reader.readLine();
-            System.out.println(processStr);
-            writer.write("ls");
-            writer.newLine();
+    private void cdcButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cdcButtonMouseClicked
+        // TODO add your handling code here:
+        String[] com={"source startfile","sim","make all"};
+        exec_file(com);
+    }//GEN-LAST:event_cdcButtonMouseClicked
 
-            while (processStr!= null) {
-                //System.out.println("w1");
-                System.out.println(processStr+"x");
-                //model.setValueAt(line, i, 0);
+    private void updateRevButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateRevButtonMouseClicked
+        // TODO add your handling code here:
+        updateRev();
+    }//GEN-LAST:event_updateRevButtonMouseClicked
+
+    private void updateRev(){
+        for(int i =0;i<model.getRowCount();i++){
+            
+            try {
+                //FileWriter f=new FileWriter("updateRev");
+                //f.write("svn status -u " + model.getValueAt(i, 0).toString()+"\n");
                 
-                
-                if (reader.ready()) {
-                    //System.out.println("ready");
-                    processStr = reader.readLine();
-                } else {
-                    processStr = null;
+                ProcessBuilder pb = new ProcessBuilder("svn","status","-u",model.getValueAt(i, 0).toString());
+                //pb.
+                Process p = pb.start();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
+                try {
+                    p.waitFor();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
                 }
+                String processStr = reader.readLine();
+                System.out.println(processStr);
+                //writer.write("ls");
+                //writer.newLine();
+                int j=0;
+                String temp=null;
+                
+                while (processStr!= null) {
+                    //System.out.println("w1");
+                    System.out.println(processStr+"x");
+                    //model.setValueAt(line, i, 0);
+                    if(j==0){
+                        //processStr.split(line);
+                        int k=0;
+                        while(processStr.charAt(k)==' '){
+                            k++;
+                        }
+                        temp+=processStr.charAt(k);
+                        temp+=" ";
+                        k++;
+                        while(processStr.charAt(k)==' '){
+                            k++;
+                        }
+                        temp+=processStr.charAt(k);
+                        while(processStr.charAt(k)!=' '){
+                            temp+=processStr.charAt(k);
+                            k++;
+                        }
+                        
+                        //return temp;
+                        model.setValueAt(temp, k, model.getColumnCount()-1);
+                    }
+                    if(j==1){
+                        
+                    }
+
+                    if (reader.ready()) {
+                        //System.out.println("ready");
+                        processStr = reader.readLine();
+                    } else {
+                        processStr = null;
+                    }
+                }
+
+
+            } catch (IOException ex) {
+                Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            
-            return 0;
-        } catch (IOException ex) {
-            Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
+        
+        
+        for(int i =0;i<tbModel.getRowCount();i++){
+            
+            try {
+                //FileWriter f=new FileWriter("updateRev");
+                //f.write("svn status -u " + model.getValueAt(i, 0).toString()+"\n");
+                
+                ProcessBuilder pb = new ProcessBuilder("svn","status","-u",tbModel.getValueAt(i, 0).toString());
+                //pb.
+                Process p = pb.start();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
+                try {
+                    p.waitFor();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                String processStr = reader.readLine();
+                System.out.println(processStr);
+                //writer.write("ls");
+                //writer.newLine();
+                int j=0;
+                String temp=null;
+                
+                while (processStr!= null) {
+                    //System.out.println("w1");
+                    System.out.println(processStr+"x");
+                    //model.setValueAt(line, i, 0);
+                    if(j==0){
+                        //processStr.split(line);
+                        int k=0;
+                        while(processStr.charAt(k)==' '){
+                            k++;
+                        }
+                        temp+=processStr.charAt(k);
+                        temp+=" ";
+                        k++;
+                        while(processStr.charAt(k)==' '){
+                            k++;
+                        }
+                        temp+=processStr.charAt(k);
+                        while(processStr.charAt(k)!=' '){
+                            temp+=processStr.charAt(k);
+                            k++;
+                        }
+                        
+                        //return temp;
+                        tbModel.setValueAt(temp, k, tbModel.getColumnCount()-1);
+                    }
+                    if(j==1){
+                        
+                    }
+
+                    if (reader.ready()) {
+                        //System.out.println("ready");
+                        processStr = reader.readLine();
+                    } else {
+                        processStr = null;
+                    }
+                }
+
+
+            } catch (IOException ex) {
+                Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        
+        
+        for(int i =0;i<envModel.getRowCount();i++){
+            
+            try {
+                //FileWriter f=new FileWriter("updateRev");
+                //f.write("svn status -u " + model.getValueAt(i, 0).toString()+"\n");
+                
+                ProcessBuilder pb = new ProcessBuilder("svn","status","-u",envModel.getValueAt(i, 0).toString());
+                //pb.
+                Process p = pb.start();
+                BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(p.getOutputStream()));
+                try {
+                    p.waitFor();
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                String processStr = reader.readLine();
+                System.out.println(processStr);
+                //writer.write("ls");
+                //writer.newLine();
+                int j=0;
+                String temp=null;
+                
+                while (processStr!= null) {
+                    //System.out.println("w1");
+                    System.out.println(processStr+"x");
+                    //model.setValueAt(line, i, 0);
+                    if(j==0){
+                        //processStr.split(line);
+                        int k=0;
+                        while(processStr.charAt(k)==' '){
+                            k++;
+                        }
+                        temp+=processStr.charAt(k);
+                        temp+=" ";
+                        k++;
+                        while(processStr.charAt(k)==' '){
+                            k++;
+                        }
+                        temp+=processStr.charAt(k);
+                        while(processStr.charAt(k)!=' '){
+                            temp+=processStr.charAt(k);
+                            k++;
+                        }
+                        
+                        //return temp;
+                        envModel.setValueAt(temp, k, envModel.getColumnCount()-1);
+                    }
+                    if(j==1){
+                        
+                    }
+
+                    if (reader.ready()) {
+                        //System.out.println("ready");
+                        processStr = reader.readLine();
+                    } else {
+                        processStr = null;
+                    }
+                }
+
+
+            } catch (IOException ex) {
+                Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
     /**
      * @param args the command line arguments
@@ -865,6 +1131,7 @@ public class VHDLview extends javax.swing.JFrame {
     private javax.swing.JButton autoEnv;
     private javax.swing.JButton autoFillTB;
     private javax.swing.JButton auto_populate_button;
+    private javax.swing.JButton cdcButton;
     private javax.swing.JTabbedPane designPane;
     private javax.swing.JButton dsnCompileButton;
     private javax.swing.JButton dupButton;
@@ -888,6 +1155,8 @@ public class VHDLview extends javax.swing.JFrame {
     private javax.swing.JButton runAllButton;
     private javax.swing.JButton runButton;
     private javax.swing.JButton searchButton;
+    private javax.swing.JButton spyglassButton;
     private javax.swing.JTable tbTable;
+    private javax.swing.JButton updateRevButton;
     // End of variables declaration//GEN-END:variables
 }
