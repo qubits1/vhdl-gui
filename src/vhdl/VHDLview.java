@@ -4,6 +4,7 @@
  */
 package vhdl;
 
+
 import java.awt.AWTException;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -18,6 +19,16 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import java.awt.Robot;
 import java.util.Vector;
+import org.tmatesoft.svn.core.*;
+import org.tmatesoft.svn.core.javahl.*;
+import org.tmatesoft.svn.cli.*;
+import org.tmatesoft.svn.core.auth.ISVNAuthenticationManager;
+import org.tmatesoft.svn.core.io.ISVNReporter;
+import org.tmatesoft.svn.core.io.SVNRepository;
+import org.tmatesoft.svn.core.io.SVNRepositoryFactory;
+import org.tmatesoft.svn.core.wc.*;
+import org.tmatesoft.svn.util.*;
+//import 
 
 
 /**
@@ -120,12 +131,19 @@ public class VHDLview extends javax.swing.JFrame {
         designPane = new javax.swing.JTabbedPane();
         jPanel5 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         auto_populate_button = new javax.swing.JButton();
         dsnCompileButton = new javax.swing.JButton();
         updateRevButton = new javax.swing.JButton();
+        head_rev_label = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tbTable = new javax.swing.JTable();
@@ -152,21 +170,54 @@ public class VHDLview extends javax.swing.JFrame {
 
         jLabel1.setText("Base Dir:");
 
+        jLabel2.setText("SVN URL: ");
+
+        jLabel3.setText("SVN user:");
+
+        jLabel4.setText("SVN pass:");
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(435, Short.MAX_VALUE))
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel5Layout.createSequentialGroup()
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel2))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 406, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel5Layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(46, 46, 46))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(305, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addContainerGap(208, Short.MAX_VALUE))
         );
 
         designPane.addTab("Configuration", jPanel5);
@@ -180,7 +231,7 @@ public class VHDLview extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.Object.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -217,6 +268,8 @@ public class VHDLview extends javax.swing.JFrame {
             }
         });
 
+        head_rev_label.setText("Head Rev: ");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -225,7 +278,8 @@ public class VHDLview extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(head_rev_label)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(updateRevButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(dsnCompileButton)
@@ -238,12 +292,14 @@ public class VHDLview extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(auto_populate_button)
-                    .addComponent(dsnCompileButton)
-                    .addComponent(updateRevButton))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(auto_populate_button)
+                        .addComponent(dsnCompileButton)
+                        .addComponent(updateRevButton))
+                    .addComponent(head_rev_label, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
 
@@ -258,7 +314,7 @@ public class VHDLview extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -326,7 +382,7 @@ public class VHDLview extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 289, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(dupButton)
@@ -346,7 +402,7 @@ public class VHDLview extends javax.swing.JFrame {
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -382,7 +438,7 @@ public class VHDLview extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(autoEnv)
                 .addContainerGap())
@@ -417,7 +473,7 @@ public class VHDLview extends javax.swing.JFrame {
                 .addComponent(cdcButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(spyglassButton)
-                .addContainerGap(257, Short.MAX_VALUE))
+                .addContainerGap(260, Short.MAX_VALUE))
         );
 
         designPane.addTab("0-in/Spyglass", jPanel4);
@@ -877,10 +933,131 @@ public class VHDLview extends javax.swing.JFrame {
 
     private void updateRevButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateRevButtonMouseClicked
         // TODO add your handling code here:
-        updateRev();
+        updateRevx();
     }//GEN-LAST:event_updateRevButtonMouseClicked
 
+    private void updateRevx(){
+        
+        System.out.println("update rev x:");
+        //String url = "https:///vhdl-gui.googlecode.com/svn/trunk"
+        //ISVNEditor editor =
+        //SVNClientManager clientManager = SVNClientManager.newInstance();
+        ISVNOptions myOptions = SVNWCUtil.createDefaultOptions(true);
+        //myOptions.
+        //ISVNAuthenticationManager myAuthMgr= new
+        String u="qubits1@gmail.com";
+        String p="quantum88";;
+                
+        
+        SVNClientManager clientManager = SVNClientManager.newInstance();
+        //clientManager.
+        SVNStatusClient statusClient = clientManager.getStatusClient();
+        SVNStatus status=null;
+        String url=null;
+        try {
+            status=statusClient.doStatus(new File(""), false);
+            SVNURL svn_url=status.getURL();
+            url=svn_url.toString();
+        } catch (SVNException ex) {
+            Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        String temp="";
+        //String url="https://vhdl-gui.googlecode.com/svn/trunk";
+        jTextField1.setText(url);
+        String name=jTextField2.getText();
+        String password=jTextField2.getText();
+        SVNRepository repository = null;
+        try { 
+            repository = SVNRepositoryFactory.create(SVNURL.parseURIDecoded(url));
+            ISVNAuthenticationManager authManager = 
+                        SVNWCUtil.createDefaultAuthenticationManager(name, password);
+            repository.setAuthenticationManager(authManager);
+            
+        } catch (SVNException e){
+
+        }
+        try {
+            head_rev_label.setText(head_rev_label.getText()+repository.getLatestRevision());
+        } catch (SVNException ex) {
+            Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        for(int i=0;i<model.getRowCount();i++){
+            
+            try {
+                System.out.println("update rev x:");
+                status =statusClient.doStatus(new File(model.getValueAt(i, 0).toString()), true);
+                
+            } catch (SVNException ex) {
+                Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            finally{
+                SVNStatusType type = status.getContentsStatus();
+                if(type != SVNStatusType.STATUS_UNVERSIONED){
+                    //statusClient.
+                    SVNRevision revision = status.getRevision();
+                    SVNRevision com_rev = status.getCommittedRevision();
+                    //SVNRevision
+                    //SVNStatusType =
+                    SVNRevision remote_rev = status.getRemoteRevision();
+                    
+                    //SVNRevision remote_rev = status.getRemoteRevision();
+                    temp="";
+                    if(type == SVNStatusType.STATUS_MODIFIED)
+                        temp+="M";
+                    else if (type == SVNStatusType.STATUS_CONFLICTED)
+                        temp+="C";
+                    else if (type == SVNStatusType.STATUS_ADDED)
+                        temp+="A";
+                    else if (type == SVNStatusType.STATUS_DELETED)
+                        temp+="D";
+                    else if (type == SVNStatusType.MERGED)
+                        temp="G";
+                    
+                    temp+=" ";
+                    System.out.println("updateRevx" +revision.getID());
+                    try {
+                        model.setValueAt(temp +com_rev.getNumber() + " / " + repository.getLatestRevision()/*+remote_rev.getNumber()*/, i, model.getColumnCount()-1);
+                    } catch (SVNException ex) {
+                        Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+                else{
+                    model.setValueAt("?", i ,model.getColumnCount()-1);
+                }
+            }
+            
+            
+        }
+        for(int i=0;i<tbModel.getRowCount();i++){
+            try {
+                System.out.println("update rev x:");
+                status =statusClient.doStatus(new File(tbModel.getValueAt(i, 0).toString()), true);
+                SVNRevision revision = status.getRemoteRevision();
+                //status.
+                System.out.println("updateRevx" +revision.getID());
+                tbModel.setValueAt(revision.getNumber() +" / ", i, tbModel.getColumnCount()-1);
+            } catch (SVNException ex) {
+                Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        for(int i=0;i<envModel.getRowCount();i++){
+            try {
+                System.out.println("update rev x:");
+                status =statusClient.doStatus(new File(envModel.getValueAt(i, 0).toString()), true);
+                SVNRevision revision = status.getRemoteRevision();
+                //status.
+                System.out.println("updateRevx" +revision.getID());
+                envModel.setValueAt(revision.getNumber() +" / ", i, envModel.getColumnCount()-1);
+            } catch (SVNException ex) {
+                Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    
     private void updateRev(){
+        updateRevx();
         for(int i =0;i<model.getRowCount();i++){
             
             try {
@@ -902,36 +1079,51 @@ public class VHDLview extends javax.swing.JFrame {
                 //writer.write("ls");
                 //writer.newLine();
                 int j=0;
-                String temp=null;
+                String temp="";
                 
                 while (processStr!= null) {
                     //System.out.println("w1");
                     System.out.println(processStr+"x");
                     //model.setValueAt(line, i, 0);
-                    if(j==0){
+                    if(!processStr.startsWith("Status")){
                         //processStr.split(line);
                         int k=0;
                         while(processStr.charAt(k)==' '){
                             k++;
+                            System.out.println(k+"char"+temp);
                         }
+                        System.out.println(k);
                         temp+=processStr.charAt(k);
                         temp+=" ";
                         k++;
+                        
                         while(processStr.charAt(k)==' '){
                             k++;
+                            System.out.println(k+"rev"+temp);
                         }
                         temp+=processStr.charAt(k);
+                        k++;
                         while(processStr.charAt(k)!=' '){
                             temp+=processStr.charAt(k);
+                            System.out.println(k+"se"+temp);
                             k++;
                         }
-                        
+                        System.out.println(k+"se"+temp);
+                        temp+=" / ";
                         //return temp;
-                        model.setValueAt(temp, k, model.getColumnCount()-1);
+                        //model.setValueAt(temp, i, model.getColumnCount()-1);
                     }
-                    if(j==1){
-                        
+                    if(processStr.startsWith("Status")){
+                        int m=processStr.length()-1;
+                        String temp2="";
+                        while(processStr.charAt(m)!=' '){
+                            temp2=processStr.charAt(m) +temp2;
+                            m--;
+                        }
+                        temp=temp+temp2;
                     }
+                    //temp=temp+temp2;
+                    model.setValueAt(temp, i, model.getColumnCount()-1);
 
                     if (reader.ready()) {
                         //System.out.println("ready");
@@ -941,11 +1133,13 @@ public class VHDLview extends javax.swing.JFrame {
                     }
                 }
 
-
+                p.destroy();
             } catch (IOException ex) {
                 Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        
         
         
         for(int i =0;i<tbModel.getRowCount();i++){
@@ -969,36 +1163,51 @@ public class VHDLview extends javax.swing.JFrame {
                 //writer.write("ls");
                 //writer.newLine();
                 int j=0;
-                String temp=null;
+                String temp="";
                 
                 while (processStr!= null) {
                     //System.out.println("w1");
                     System.out.println(processStr+"x");
                     //model.setValueAt(line, i, 0);
-                    if(j==0){
+                    if(!processStr.startsWith("Status")){
                         //processStr.split(line);
                         int k=0;
                         while(processStr.charAt(k)==' '){
                             k++;
+                            System.out.println(k+"char"+temp);
                         }
+                        System.out.println(k);
                         temp+=processStr.charAt(k);
                         temp+=" ";
                         k++;
+                        
                         while(processStr.charAt(k)==' '){
                             k++;
+                            System.out.println(k+"rev"+temp);
                         }
                         temp+=processStr.charAt(k);
+                        k++;
                         while(processStr.charAt(k)!=' '){
                             temp+=processStr.charAt(k);
+                            System.out.println(k+"se"+temp);
                             k++;
                         }
-                        
+                        System.out.println(k+"se"+temp);
+                        temp+=" / ";
                         //return temp;
-                        tbModel.setValueAt(temp, k, tbModel.getColumnCount()-1);
+                        //model.setValueAt(temp, i, model.getColumnCount()-1);
                     }
-                    if(j==1){
-                        
+                    if(processStr.startsWith("Status")){
+                        int m=processStr.length()-1;
+                        String temp2="";
+                        while(processStr.charAt(m)!=' '){
+                            temp2=processStr.charAt(m) +temp2;
+                            m--;
+                        }
+                        temp=temp+temp2;
                     }
+                    //temp=temp+temp2;
+                    tbModel.setValueAt(temp, i, tbModel.getColumnCount()-1);
 
                     if (reader.ready()) {
                         //System.out.println("ready");
@@ -1008,11 +1217,12 @@ public class VHDLview extends javax.swing.JFrame {
                     }
                 }
 
-
+                p.destroy();
             } catch (IOException ex) {
                 Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
         
         
         for(int i =0;i<envModel.getRowCount();i++){
@@ -1036,36 +1246,51 @@ public class VHDLview extends javax.swing.JFrame {
                 //writer.write("ls");
                 //writer.newLine();
                 int j=0;
-                String temp=null;
+                String temp="";
                 
                 while (processStr!= null) {
                     //System.out.println("w1");
                     System.out.println(processStr+"x");
                     //model.setValueAt(line, i, 0);
-                    if(j==0){
+                    if(!processStr.startsWith("Status")){
                         //processStr.split(line);
                         int k=0;
                         while(processStr.charAt(k)==' '){
                             k++;
+                            System.out.println(k+"char"+temp);
                         }
+                        System.out.println(k);
                         temp+=processStr.charAt(k);
                         temp+=" ";
                         k++;
+                        
                         while(processStr.charAt(k)==' '){
                             k++;
+                            System.out.println(k+"rev"+temp);
                         }
                         temp+=processStr.charAt(k);
+                        k++;
                         while(processStr.charAt(k)!=' '){
                             temp+=processStr.charAt(k);
+                            System.out.println(k+"se"+temp);
                             k++;
                         }
-                        
+                        System.out.println(k+"se"+temp);
+                        temp+=" / ";
                         //return temp;
-                        envModel.setValueAt(temp, k, envModel.getColumnCount()-1);
+                        //model.setValueAt(temp, i, model.getColumnCount()-1);
                     }
-                    if(j==1){
-                        
+                    if(processStr.startsWith("Status")){
+                        int m=processStr.length()-1;
+                        String temp2="";
+                        while(processStr.charAt(m)!=' '){
+                            temp2=processStr.charAt(m) +temp2;
+                            m--;
+                        }
+                        temp=temp+temp2;
                     }
+                    //temp=temp+temp2;
+                    envModel.setValueAt(temp, i, envModel.getColumnCount()-1);
 
                     if (reader.ready()) {
                         //System.out.println("ready");
@@ -1075,12 +1300,20 @@ public class VHDLview extends javax.swing.JFrame {
                     }
                 }
 
-
+                p.destroy();
             } catch (IOException ex) {
                 Logger.getLogger(VHDLview.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        
+
     }
+    
+    
+    
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -1136,7 +1369,11 @@ public class VHDLview extends javax.swing.JFrame {
     private javax.swing.JButton dsnCompileButton;
     private javax.swing.JButton dupButton;
     private javax.swing.JTable envTable;
+    private javax.swing.JLabel head_rev_label;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -1149,6 +1386,9 @@ public class VHDLview extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JList logFileList;
     private javax.swing.JTextField logSearchText;
     private javax.swing.JTextArea logText;
